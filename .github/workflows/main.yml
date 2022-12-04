@@ -1,6 +1,6 @@
 name: AutoRecord
 on:
-  workflow_dispatch
+  workflow_dispatch:
   schedule:
     - cron: '47 7 * * *'
 jobs:
