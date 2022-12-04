@@ -1,4 +1,6 @@
+from contextlib import suppress
 from playwright.sync_api import sync_playwright
+from pathlib import Path
 import json,datetime,os
 
 with sync_playwright() as playwright:
@@ -15,17 +17,24 @@ with sync_playwright() as playwright:
     data = []
     date = datetime.datetime.now().strftime("%Y-%m-%d")
 
-    try:
+    with suppress(FileNotFoundError):
         with open("data.json",'r',encoding='utf-8') as f:
             originstring = f.read().lstrip("data=")
-    except FileNotFoundError:
-        pass
+
+    # try:
+    #     with open("data.json",'r',encoding='utf-8') as f:
+    #         originstring = f.read().lstrip("data=")
+    # except FileNotFoundError:
+    #     pass
 
     data = json.loads(originstring)
     if len(data) != 0 and date in data[-1].values():
         data[-1]['kWh'] = remain
     else:
         data.append({"time" : date, "kWh" : remain})
-    with open("data.json",'w') as f:
-        originstring = json.dumps(data,indent=4, ensure_ascii=False)
-        f.write("data=" + originstring)
+    
+    originstring = json.dumps(data,indent=4, ensure_ascii=False)
+    Path("data.json").write_text("data=" + originstring)
+    
+    # with open("data.json",'w') as f:
+    #     f.write("data=" + originstring)
