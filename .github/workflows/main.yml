@@ -21,7 +21,7 @@ jobs:
             playwright install
       - name: Run
         env:
-            ACCOUNT: ${{secrets.URL}}
+            URL: ${{secrets.URL}}
         run: |
             python main.py
       - name: config git
