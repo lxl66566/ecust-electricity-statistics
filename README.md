@@ -16,15 +16,15 @@
 
 4. Settings - Secrets - Actions - New repository secret 
 
-一共需要添加三个 secrets:
+<!-- 一共需要添加三个 secrets: -->
 
-    第一个：Name 填写 `URL`，Secret 填写 第一步复制的链接
+    Name 填写 `URL`，Secret 填写 第一步复制的链接
   
-    第二个：Name 填写 `EMAIL`，Secret 填写 你的 Github 注册邮箱
+<!--  第一个：   第二个：Name 填写 `EMAIL`，Secret 填写 你的 Github 注册邮箱
   
     第三个：Name 填写 `NAME`，Secret 填写 你的 Github 用户名
   
-  （后两个用于在 Actions 中向仓库写入数据）
+  （后两个用于在 Actions 中向仓库写入数据） -->
 
 ![image](https://user-images.githubusercontent.com/88281489/205481390-292a3fc3-fa69-4c2f-886c-b0bc573f5470.png)
 ![image](https://user-images.githubusercontent.com/88281489/205481486-3b5cafc9-f00d-4ca3-a0d8-eaedfffff7df.png)
