@@ -10,7 +10,7 @@
 
 ![image](https://user-images.githubusercontent.com/88281489/205480982-a221a67c-c789-4298-9a45-34a35c820b71.png)
 
-3. 在 Code 界面下，点击 `data.json` ，将其删除。
+3. 在 Code 界面下，点击 `data.js` ，将其删除。
 
 ![image](https://user-images.githubusercontent.com/88281489/205482133-a769645f-e106-453b-9fb1-09ec95664236.png)
 
@@ -38,6 +38,8 @@
 ![image](https://user-images.githubusercontent.com/88281489/205481894-022e114f-5023-45d5-881d-d5fbc9d4a6ba.png)
 
 ## 查看数据
+### Github Pages
+使用 Github Pages 构建。
 ### 图表
 1. 使用 `git clone` 或下载 zip
 
@@ -45,4 +47,4 @@
 
 2. 解压，双击打开 `statistics.html` 文件
 ### 生数据
-直接点击 `data.json` 查看
+直接点击 `data.js` 查看

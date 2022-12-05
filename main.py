@@ -18,14 +18,8 @@ with sync_playwright() as playwright:
     date = datetime.datetime.now().strftime("%Y-%m-%d")
 
     with suppress(FileNotFoundError):
-        with open("data.json",'r',encoding='utf-8') as f:
+        with open("data.js",'r',encoding='utf-8') as f:
             originstring = f.read().lstrip("data=")
-
-    # try:
-    #     with open("data.json",'r',encoding='utf-8') as f:
-    #         originstring = f.read().lstrip("data=")
-    # except FileNotFoundError:
-    #     pass
 
     data = json.loads(originstring)
     if len(data) != 0 and date in data[-1].values():
@@ -34,7 +28,5 @@ with sync_playwright() as playwright:
         data.append({"time" : date, "kWh" : remain})
     
     originstring = json.dumps(data,indent=4, ensure_ascii=False)
-    Path("data.json").write_text("data=" + originstring)
+    Path("data.js").write_text("data=" + originstring)
     
-    # with open("data.json",'w') as f:
-    #     f.write("data=" + originstring)
