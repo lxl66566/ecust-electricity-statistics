@@ -52,3 +52,5 @@ Settings - Pages - Deploy from a branch - Save
 2. 解压，双击打开 `index.html` 文件
 ### 生数据
 直接点击 `data.js` 查看
+## 注意事项
+fork 此仓库后请不要再次 sync fork，否则可能会造成数据丢失。若确实需要更新到最新版本，请自行备份`data.js`并使用 git 恢复数据。
