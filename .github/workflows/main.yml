@@ -15,16 +15,19 @@ jobs:
             python-version: "3.10"
       - name: Install
         run:
-            pip install -r requirements.txt
-      # - name: Install playwright
-      #   run:
-      #       playwright install
+          pip install -r requirements.txt
       - name: Run
         env:
             URL: ${{secrets.URL}}
         run: |
-            python main.py
-      - name: config git
-        run: git config --global user.email "actions@gmail.com"&&git config --global user.name "Github Actions"
+          python main.py
+      - name: git config
+        run: |-
+          git config --global user.name "Github Actions"
+          git config --global user.email "actions@gmail.com"
       - name: Push
-        run: git status&&git add .&&git commit -m "update by github actions"&&git push origin main
+        run: |-
+          git diff
+          git add -A
+          git commit -m "update by github actions"
+          git push
