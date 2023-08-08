@@ -1,5 +1,5 @@
 # ecust-electricity-statistics
-华东理工大学电费统计：拒绝一切不透明操作。通过 Github Actions 自动获取并记录每天的宿舍电量剩余。
+华东理工大学电费统计：拒绝一切不透明操作。通过 Github Actions 自动获取并记录每天的宿舍电量剩余，并通过PushPlus自动推送到微信端。
 
 ## 开始记录
 1. 华理信息办 - 微门户 - 电费充值 - 查询您的宿舍电量 - 复制链接。（本例中宿舍为随机选出）
@@ -46,5 +46,17 @@ Settings - Pages - Deploy from a branch - 选中 main - Save
 2. 解压，双击打开 `index.html` 文件
 ### 生数据
 直接点击 `data.js` 查看
+
+## PushPlus推送
+
+### 启用推送
+Settings - Secrets and variables - Actions - New repository secret
+* Name 填写 `PUSH_PLUS_TOKEN`，Secret 填写 你的PushPlus的TOKEN信息
+
+若不启用该功能则无需填写
+
+### 编辑“图表显示更多数据”
+反注释```main.py```76行-77行，把你的链接替换此。
+
 ## 注意事项
 fork 此仓库后请不要再次 sync fork，否则可能会造成数据丢失。若确实需要更新到最新版本，请自行备份`data.js`并使用 git 恢复数据。
