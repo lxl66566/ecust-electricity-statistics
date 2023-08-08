@@ -72,6 +72,9 @@ if not(PUSH_PLUS_TOKEN == "" or PUSH_PLUS_TOKEN==None or PUSH_PLUS_TOKEN=="error
         index+=1
     text=f'## 当前剩余电量：{remain}kWh\n个人信息：{buildid[0]}号楼{roomid[0]}室\n\n统计时间：{stime}\n\n### 最近10天数据\n'
     text+=(tablestr+"\n")
+    print(text)
+    print(PUSH_PLUS_TOKEN)
+    print(url)
     #show more
     # website="https://lxl66566.github.io/ecust-electricity-statistics"
     # text+=f"[图表显示更多数据]({website})\n"
