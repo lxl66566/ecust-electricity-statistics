@@ -1,6 +1,9 @@
-import requests,json
+import json
 
-def sendMsgToWechat(token:str,title:str,text:str,template:str) -> None :
+import requests
+
+
+def sendMsgToWechat(token: str, title: str, text: str, template: str) -> None:
     '''
     token:PushPlus token
     title:text's title
@@ -10,15 +13,14 @@ def sendMsgToWechat(token:str,title:str,text:str,template:str) -> None :
     default channel is wechat
     '''
     url = "http://www.pushplus.plus/send"
-    data={
-        'token':token,
-        'title':title,
-        'content':text,
-        'template':template
-
+    data = {
+        'token': token,
+        'title': title,
+        'content': text,
+        'template': template
     }
-    response=requests.post(url=url,
-                           data = (
-                                    json.dumps(data).encode(encoding='utf-8')
-                                    ),
-                           )
+    requests.post(url=url,
+                  data=(
+                      json.dumps(data).encode(encoding='utf-8')
+                  )
+                  )

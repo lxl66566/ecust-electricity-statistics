@@ -50,13 +50,11 @@ Settings - Pages - Deploy from a branch - 选中 main - Save
 ## PushPlus推送
 
 ### 启用推送
-Settings - Secrets and variables - Actions - New repository secret
-* Name 填写 `PUSH_PLUS_TOKEN`，Secret 填写 你的PushPlus的TOKEN信息
-
-若不启用该功能则无需填写
-
+1. Settings - Secrets and variables - Actions - New repository secret
+2. Name 填写 `PUSH_PLUS_TOKEN`，Secret 填写你的 PushPlus 的 TOKEN 信息
+> 若不启用该功能则无需填写
 ### 编辑“图表显示更多数据”
-反注释```main.py```76行-77行，把你的链接替换此。
+反注释 `main.py` 65行-66行，把你的链接替换此。
 
 ## 注意事项
 fork 此仓库后请不要再次 sync fork，否则可能会造成数据丢失。若确实需要更新到最新版本，请自行备份`data.js`并使用 git 恢复数据。
