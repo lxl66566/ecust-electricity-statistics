@@ -1,6 +1,12 @@
 # ecust-electricity-statistics
 华东理工大学电费统计：拒绝一切不透明操作。通过 Github Actions 自动获取并记录每天的宿舍电量剩余，并通过PushPlus自动推送到微信端。
+* secrets 
 
+|name|option|function|
+| :-: | :-: | :-: |
+|URL|必填|电费查询来源|
+|PUSH_PLUS_TOKEN|选填|[推送选项](#启用推送)|
+|PUSH_PLUS_DETAIL|选填|[推送选项](#显示更多数据)|
 ## 开始记录
 1. 华理信息办 - 微门户 - 电费充值 - 查询您的宿舍电量 - 复制链接。（本例中宿舍为随机选出）
 
@@ -14,19 +20,19 @@
 
 ![删除 AbsoluteX 的数据](https://user-images.githubusercontent.com/88281489/205482133-a769645f-e106-453b-9fb1-09ec95664236.png)
 
-4. Settings - Secrets and variables - Actions - New repository secret
+4. *Settings - Secrets and variables - Actions - New repository secret*
 * Name 填写 `URL`，Secret 填写 第一步复制的链接
 
 ![找到 Secrets](https://user-images.githubusercontent.com/88281489/205481390-292a3fc3-fa69-4c2f-886c-b0bc573f5470.png)
 ![填写](https://user-images.githubusercontent.com/88281489/205481486-3b5cafc9-f00d-4ca3-a0d8-eaedfffff7df.png)
 
-5. Settings - Actions - General 界面，拉到最下，选择 Workflow permissions 为 Read and write permissions
+5. *Settings - Actions - General* 界面，拉到最下，选择 *Workflow permissions* 为 *Read and write permissions*
 
 <img alt="界面" src="https://user-images.githubusercontent.com/88281489/229278107-8a623cea-0ff9-435c-b729-e248c17ae827.png"  width="70%" height="70%"/>
 
 ![选择权限](https://user-images.githubusercontent.com/88281489/229278162-e65383df-17a4-4b66-8981-5fc23d2413a7.png)
 
-6. Actions - enable them，然后在 AutoRecord 下点击 Enable workflow
+6. *Actions - enable them*，然后在 AutoRecord 下点击 Enable workflow
 
 ![image](https://user-images.githubusercontent.com/88281489/229278566-17ec1798-5e26-4c42-8f82-91386955d4fc.png)
 ![image](https://user-images.githubusercontent.com/88281489/205481894-022e114f-5023-45d5-881d-d5fbc9d4a6ba.png)
@@ -46,15 +52,16 @@ Settings - Pages - Deploy from a branch - 选中 main - Save
 2. 解压，双击打开 `index.html` 文件
 ### 生数据
 直接点击 `data.js` 查看
-
 ## PushPlus推送
-
 ### 启用推送
 1. Settings - Secrets and variables - Actions - New repository secret
 2. Name 填写 `PUSH_PLUS_TOKEN`，Secret 填写你的 PushPlus 的 TOKEN 信息
 > 若不启用该功能则无需填写
-### 编辑“图表显示更多数据”
-反注释 `main.py` 65行-66行，把你的链接替换此。
-
+### 显示更多数据
+同上，新建 secret，*NAME* 填写 `PUSH_PLUS_DETAIL`，`Secret` 填写**任意非空字符串**
+> 前提：启用推送
 ## 注意事项
 fork 此仓库后请不要再次 sync fork，否则可能会造成数据丢失。若确实需要更新到最新版本，请自行备份`data.js`并使用 git 恢复数据。
+## 贡献指南
+* [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+* 保留 `data.js` 中的数据

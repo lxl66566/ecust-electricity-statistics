@@ -19,8 +19,10 @@ jobs:
         run: pip install -r requirements.txt
       - name: Run
         env:
-          URL: ${{secrets.URL}}
-          PUSH_PLUS_TOKEN: ${{secrets.PUSH_PLUS_TOKEN}}
+          URL: ${{ secrets.URL }}
+          PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}
+          PUSH_PLUS_DETAIL: ${{ secrets.PUSH_PLUS_DETAIL }}
+          GITHUB_TRIGGERING_ACTOR: ${{ github.triggering_actor }}
         run: |
           python main.py
       - name: git config
