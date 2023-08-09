@@ -1,4 +1,5 @@
 import json
+import logging
 
 import requests
 
@@ -14,4 +15,10 @@ def sendMsgToWechat(token: str, title: str, text: str, template: str) -> None:
     """
     url = "http://www.pushplus.plus/send"
     data = {"token": token, "title": title, "content": text, "template": template}
-    requests.post(url=url, data=(json.dumps(data).encode(encoding="utf-8")))
+    try:
+        requests.post(
+            url=url, data=(json.dumps(data).encode(encoding="utf-8")), timeout=20
+        )
+    except requests.exceptions | Exception as e:
+        logging.exception(e)
+        raise e

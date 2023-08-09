@@ -1,5 +1,6 @@
 import datetime
 import json
+import logging
 import os
 import re
 from contextlib import suppress
@@ -11,6 +12,8 @@ URL = os.environ.get("URL").strip()
 PUSH_PLUS_TOKEN = os.environ.get("PUSH_PLUS_TOKEN", "").strip()
 PUSH_PLUS_DETAIL = os.environ.get("PUSH_PLUS_DETAIL", "").strip()
 GITHUB_TRIGGERING_ACTOR = os.environ.get("GITHUB_TRIGGERING_ACTOR", "").strip()
+logging.basicConfig(level=logging.INFO)
+logging.info(f"github.triggering_actor is {GITHUB_TRIGGERING_ACTOR}")
 
 header = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
@@ -46,9 +49,10 @@ else:
 # write back to data.js
 originstring = json.dumps(data, indent=2, ensure_ascii=False)
 Path("data.js").write_text("data=" + originstring, encoding="utf-8")
+logging.info("write back to data.js")
 
 # push plus
-if not PUSH_PLUS_TOKEN:
+if PUSH_PLUS_TOKEN:
     from urllib.parse import parse_qs, urlparse
 
     from utils import sendMsgToWechat
@@ -72,4 +76,7 @@ if not PUSH_PLUS_TOKEN:
             f"https://{GITHUB_TRIGGERING_ACTOR}.github.io/ecust-electricity-statistics"
         )
         text += f"[图表显示更多数据]({website})\n"
-    sendMsgToWechat(PUSH_PLUS_TOKEN, f"{stime}华理电费统计", text, "markdown")
+        logging.info("show more details")
+    with suppress():
+        sendMsgToWechat(PUSH_PLUS_TOKEN, f"{stime}华理电费统计", text, "markdown")
+        logging.info("push plus executed successfully")
