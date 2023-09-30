@@ -38,10 +38,14 @@ date = datetime.datetime.now().strftime("%Y-%m-%d")
 with suppress(FileNotFoundError):
     with open("data.js", "r", encoding="utf-8") as f:
         originstring = f.read().lstrip("data=")
-data: list = json.loads(originstring)
+try:
+    data: list = json.loads(originstring)
+except json.decoder.JSONDecodeError:
+    logging.error("data.js 格式错误，请参考注意事项进行检查")
+    exit(1)
 
 # add new data
-if data and date in data[-1].values():
+if data and (date in data[-1].values()):
     data[-1]["kWh"] = remain
 else:
     data.append({"time": date, "kWh": remain})
