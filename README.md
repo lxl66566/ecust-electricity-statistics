@@ -20,9 +20,9 @@
 
 ![fork](https://user-images.githubusercontent.com/88281489/205480982-a221a67c-c789-4298-9a45-34a35c820b71.png)
 
-3. 在 Code 界面下，点击 `data.js` ，将其删除。
+3. 在 Code 界面下，点击 `data.js` ，将其删除。**别忘了 commit changes...**
 
-![删除 AbsoluteX 的数据](https://user-images.githubusercontent.com/88281489/205482133-a769645f-e106-453b-9fb1-09ec95664236.png)
+![删除 AbsoluteX 的数据](https://github.com/lxl66566/ecust-electricity-statistics/assets/88281489/bb12d4b9-4680-4499-9994-b0bd84d7fe1f)
 
 4. _Settings - Secrets and variables - Actions - New repository secret_
 
