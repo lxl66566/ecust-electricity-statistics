@@ -34,7 +34,7 @@ def pushplus():
     # insufficient electricity warning
     assert last_few_items, "last_few_items is empty"
     last_remain = last_few_items[-1]["kWh"]
-    if config.getint("pushplus", "warning", fallback=10) > last:
+    if config.getint("pushplus", "warning", fallback=10) > last_remain:
         text = f"""# <text style="color:red;">警告：电量低于阈值({last_remain}kWh)</text>\n"""
     else:
         if config.getboolean("pushplus", "push_warning_only", fallback=False):
@@ -42,14 +42,14 @@ def pushplus():
             return
         text = ""
 
-    # TODO: buildid != real building ids
-    text += f"## 当前剩余电量：{remain}kWh\n个人信息：{buildid[0]}号楼{roomid[0]}室\n\n统计时间：{stime}\n\n### 最近{days_to_show}天数据\n{tablestr}\n"
-
     tablestr = "| 序号 | 时间 | 剩余电量 |\n|---|---|---|\n"
     index = 1
     for item in reversed(last_few_items):
         tablestr += f'| {index} | {item["time"]} | {item["kWh"]}kWh |\n'
         index += 1
+
+    # TODO: buildid != real building ids
+    text += f"## 当前剩余电量：{remain}kWh\n个人信息：{buildid[0]}号楼{roomid[0]}室\n\n统计时间：{stime}\n\n### 最近{days_to_show}天数据\n{tablestr}\n"
 
     if (
         config.getboolean("pushplus", "detail", fallback=True)
