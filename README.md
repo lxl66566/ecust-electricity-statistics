@@ -8,7 +8,6 @@
     | :-: | :-: | :-: |
     |URL|必填|电费查询来源|
     |PUSH_PLUS_TOKEN|选填|[推送选项](#启用推送)|
-    |PUSH_PLUS_DETAIL|选填|[推送选项](#显示更多数据)|
 
 ## 开始记录
 
@@ -70,11 +69,20 @@ Settings - Pages - Deploy from a branch - 选中 main - Save
 1. Settings - Secrets and variables - Actions - New repository secret
 2. Name 填写 `PUSH_PLUS_TOKEN`，Secret 填写你的 PushPlus 的 TOKEN 信息
 
-### 显示更多数据
+### 其他配置
 
 > 前置条件：启用推送
 
-同上，新建 secret，_NAME_ 填写 `PUSH_PLUS_DETAIL`，`Secret` 填写**任意非空字符串**
+自行编辑 `config.ini` 文件，详情见文件注释。
+
+|       参数        | 默认值 |
+| :---------------: | :----: |
+|   days_to_show    |   10   |
+|      detail       |  true  |
+|      warning      |   10   |
+| push_warning_only |  true  |
+
+请注意由于 `push_warning_only`，默认情况下不会推送每日数据。
 
 ## 注意事项
 
