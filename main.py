@@ -38,6 +38,7 @@ def pushplus():
         text = f"""# <text style="color:red;">警告：电量低于阈值({last_remain}kWh)</text>\n"""
     else:
         if config.getboolean("pushplus", "push_warning_only", fallback=False):
+            logging.info("sufficient electricity, ignoring pushing...")
             return
         text = ""
 
