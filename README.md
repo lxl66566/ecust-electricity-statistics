@@ -19,7 +19,7 @@
 
 ![fork](https://user-images.githubusercontent.com/88281489/205480982-a221a67c-c789-4298-9a45-34a35c820b71.png)
 
-3. 在 Code 界面下，点击 `data.js` ，将其删除。**别忘了 commit changes...**
+3. 在 Code 界面下，点击 `data.js` ，将其删除。
 
 ![删除 AbsoluteX 的数据](https://github.com/lxl66566/ecust-electricity-statistics/assets/88281489/bb12d4b9-4680-4499-9994-b0bd84d7fe1f)
 
@@ -73,7 +73,9 @@ Settings - Pages - Deploy from a branch - 选中 main - Save
 
 > 前置条件：启用推送
 
-自行编辑 `config.ini` 文件，详情见文件注释。
+编辑 `config.ini` 文件，详情见文件注释。
+
+![20231017-1744](https://github.com/lxl66566/ecust-electricity-statistics/assets/88281489/ef1b0a26-4f77-4c5c-8281-cac1f3d2d3cd)
 
 |       参数        | 默认值 |
 | :---------------: | :----: |
@@ -86,8 +88,9 @@ Settings - Pages - Deploy from a branch - 选中 main - Save
 
 ## 注意事项
 
-- fork 此仓库后请不要再次 sync fork，否则可能会造成数据丢失。若确实需要更新到最新版本，请自行备份`data.js`并使用 git 恢复数据。
+- fork 此仓库后请不要再次 sync fork，否则可能会造成数据丢失。若确实需要更新到最新版本，请自行备份 `data.js` 并使用 git 恢复数据。
 - `data.js` 会被作为 _json_ 处理。若自行修改，请遵守 _json_ 格式规范，注意不要有多余的逗号。
+- 对文件进行修改和删除后，**别忘了 commit changes**...
 
 ## 贡献指南
 
