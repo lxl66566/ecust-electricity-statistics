@@ -19,6 +19,6 @@ def sendMsgToWechat(token: str, title: str, text: str, template: str) -> None:
         requests.post(
             url=url, data=(json.dumps(data).encode(encoding="utf-8")), timeout=20
         )
-    except requests.exceptions | Exception as e:
+    except Exception as e:
         logging.exception(e)
         raise e

@@ -9,16 +9,32 @@ from pathlib import Path
 
 import requests
 
+# DEBUG：开启调试模式，将 pushplus 消息输出至 stdout
+DEBUG = os.environ.get("DEBUG", os.environ.get("debug", "")).strip()
 URL = os.environ.get("URL").strip()
 PUSH_PLUS_TOKEN = os.environ.get("PUSH_PLUS_TOKEN", "").strip()
 GITHUB_TRIGGERING_ACTOR = os.environ.get("GITHUB_TRIGGERING_ACTOR", "").strip()
+
 config = ConfigParser()
 config.read("config.ini", encoding="utf-8")
 logging.basicConfig(level=logging.INFO)
-logging.info(f"github.triggering_actor is {GITHUB_TRIGGERING_ACTOR}")
+logging.info(f"{GITHUB_TRIGGERING_ACTOR=}")
 
+# 你理的 buildid 真是太棒了
+def building_number_map(id: int | str) -> int:
+    match int(id):
+        case x if x >= 27 and x <= 46:
+            return x - 22
+        case x if x >= 49 and x <= 52:
+            return x - 24
+        case other:
+            return other
 
 def pushplus():
+    if not PUSH_PLUS_TOKEN and not DEBUG:
+        logging.info("push plus token is empty, ignoring pushing...")
+        return
+    
     from urllib.parse import parse_qs, urlparse
 
     from utils import sendMsgToWechat
@@ -37,31 +53,28 @@ def pushplus():
     if config.getint("pushplus", "warning", fallback=10) > last_remain:
         text = f"""# <text style="color:red;">警告：电量低于阈值({last_remain}kWh)</text>\n"""
     else:
-        if config.getboolean("pushplus", "push_warning_only", fallback=False):
+        if config.getboolean("pushplus", "push_warning_only", fallback=False) and not DEBUG:
             logging.info("sufficient electricity, ignoring pushing...")
             return
         text = ""
 
     tablestr = "| 序号 | 时间 | 剩余电量 |\n|---|---|---|\n"
-    index = 1
-    for item in reversed(last_few_items):
+    for index, item in enumerate(reversed(last_few_items), 1):
         tablestr += f'| {index} | {item["time"]} | {item["kWh"]}kWh |\n'
-        index += 1
 
-    # TODO: buildid != real building ids
-    text += f"## 当前剩余电量：{remain}kWh\n个人信息：{buildid[0]}号楼{roomid[0]}室\n\n统计时间：{stime}\n\n### 最近{days_to_show}天数据\n{tablestr}\n"
+    text += f"## 当前剩余电量：{remain} kWh\n\n个人信息：{building_number_map(buildid[0])} 号楼 {roomid[0]} 室\n统计时间：{stime}\n\n### 最近 {days_to_show} 天数据\n\n{tablestr}\n"
 
     if (
         config.getboolean("pushplus", "detail", fallback=True)
         and GITHUB_TRIGGERING_ACTOR
     ):
-        website = (
-            f"https://{GITHUB_TRIGGERING_ACTOR}.github.io/ecust-electricity-statistics"
-        )
-        text += f"[图表显示更多数据]({website})\n"
         logging.info("show more details")
+        text += f"[图表显示更多数据](https://{GITHUB_TRIGGERING_ACTOR}.github.io/ecust-electricity-statistics)\n"
     with suppress():
-        sendMsgToWechat(PUSH_PLUS_TOKEN, f"{stime}华理电费统计", text, "markdown")
+        if DEBUG:
+            print(text)
+        else:
+            sendMsgToWechat(PUSH_PLUS_TOKEN, f"{stime}华理电费统计", text, "markdown")
         logging.info("push plus executed successfully")
 
 
@@ -81,8 +94,13 @@ header = {
 }
 response = requests.get(URL, headers=header)
 
-remain = float(re.findall((r"(\d+(\.\d+)?)度"), response.text)[0][0])
-logging.info(f"剩余电量：{remain}")
+try:
+    remain = float(re.findall((r"(\d+(\.\d+)?)度"), response.text)[0][0])
+    logging.info(f"剩余电量：{remain}")
+except Exception as e:
+    logging.exception(e)
+    logging.error("剩余电量获取失败，response: " + response.text)
+
 originstring = "[]"
 date = datetime.datetime.now().strftime("%Y-%m-%d")
 
@@ -103,9 +121,9 @@ else:
     data.append({"time": date, "kWh": remain})
 
 # write back to data.js
-originstring = json.dumps(data, indent=2, ensure_ascii=False)
-Path("data.js").write_text("data=" + originstring, encoding="utf-8")
-logging.info("write back to data.js")
+if not DEBUG:
+    originstring = json.dumps(data, indent=2, ensure_ascii=False)
+    Path("data.js").write_text("data=" + originstring, encoding="utf-8")
+    logging.info("write back to data.js")
 
-if PUSH_PLUS_TOKEN:
-    pushplus()
+pushplus()
