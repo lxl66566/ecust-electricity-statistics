@@ -1,13 +1,6 @@
 # ecust-electricity-statistics
 
-华东理工大学电费统计：拒绝一切不透明操作。通过 Github Actions 自动获取并记录每天的宿舍电量剩余，并通过 PushPlus 自动推送到微信端。
-
-- secrets
-  <!-- prettier-ignore -->
-    |name|option|function|
-    | :-: | :-: | :-: |
-    |URL|必填|电费查询来源|
-    |PUSH_PLUS_TOKEN|选填|[推送选项](#启用推送)|
+华东理工大学电费统计：拒绝一切不透明操作。通过 Github Actions 自动获取并记录每天的宿舍电量剩余，并通过 PushPlus/Telegram 自动推送/告急。
 
 ## 开始记录
 
@@ -62,18 +55,11 @@ Settings - Pages - Deploy from a branch - 选中 main - Save
 
 直接点击 `data.js` 查看
 
-## PushPlus 推送（可选）
+## 推送（可选）
 
-### 启用推送
+### 推送选项
 
-1. Settings - Secrets and variables - Actions - New repository secret
-2. Name 填写 `PUSH_PLUS_TOKEN`，Secret 填写你的 PushPlus 的 TOKEN 信息
-
-### 其他配置
-
-> 前置条件：启用推送
-
-编辑 `config.ini` 文件，详情见文件注释。
+如果你需要自定义推送选项，请编辑 `config.toml` 文件，详情见文件注释。
 
 ![20231017-1744](https://github.com/lxl66566/ecust-electricity-statistics/assets/88281489/ef1b0a26-4f77-4c5c-8281-cac1f3d2d3cd)
 
@@ -86,6 +72,19 @@ Settings - Pages - Deploy from a branch - 选中 main - Save
 
 请注意由于 `push_warning_only`，默认情况下不会推送每日数据。
 
+然后，你需要选择以下两个推送方式的至少一个：
+
+### Telegram
+
+1. Settings - Secrets and variables - Actions - New repository secret
+2. Name 填写 `TELEGRAM_BOT_TOKEN`，Secret 填写你的 Telegram Bot Token 信息
+3. Name 填写 `TELEGRAM_USER_IDS`，Secret 填写你的 Telegram chat ID 信息，表示 bot 需要发送消息的会话。多个 User ID 以空格分隔。
+
+### PushPlus
+
+1. Settings - Secrets and variables - Actions - New repository secret
+2. Name 填写 `PUSH_PLUS_TOKEN`，Secret 填写你的 PushPlus 的 TOKEN 信息
+
 ## 注意事项
 
 - fork 此仓库后请不要再次 sync fork，否则可能会造成数据丢失。若确实需要更新到最新版本，请自行备份 `data.js` 并使用 git 恢复数据。
@@ -94,5 +93,4 @@ Settings - Pages - Deploy from a branch - 选中 main - Save
 
 ## 贡献指南
 
-- [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 - pr 保留 `data.js` 中的数据

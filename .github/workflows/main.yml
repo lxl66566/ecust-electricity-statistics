@@ -14,15 +14,16 @@ jobs:
       - name: Setup
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: "3.12"
       - name: Install
         run: pip install -r requirements.txt
       - name: Run
         env:
           URL: ${{ secrets.URL }}
           PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}
-          PUSH_PLUS_DETAIL: ${{ secrets.PUSH_PLUS_DETAIL }}
           GITHUB_TRIGGERING_ACTOR: ${{ github.triggering_actor }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_USER_IDS: ${{ secrets.TELEGRAM_USER_IDS }}
         run: |
           python main.py
       - name: git config
