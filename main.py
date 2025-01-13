@@ -16,7 +16,7 @@ class ItemType(TypedDict):
     kWh: float
 
 
-# DEBUG：开启调试模式，将 pushplus 消息输出至 stdout
+# DEBUG：开启调试模式，将 pushplus/Telegram 消息输出至 stdout
 DEBUG = os.environ.get("DEBUG", os.environ.get("debug", "")).strip()
 URL = os.environ.get("URL", "").strip()
 PUSH_PLUS_TOKEN = os.environ.get("PUSH_PLUS_TOKEN", "").strip()
@@ -72,7 +72,7 @@ def get_last_few_items() -> list[ItemType]:
 def generate_tablestr(last_few_items: list[ItemType]) -> str:
     tablestr = ["| 序号 | 时间 | 剩余电量 |\n| --- | --- | --- |"]
     for index, item in enumerate(reversed(last_few_items), 1):
-        tablestr.append(f'| {index} | {item["time"]} | {item["kWh"]}kWh |')
+        tablestr.append(f"| {index} | {item['time']} | {item['kWh']}kWh |")
     tablestr.append("")
     return "\n".join(tablestr)
 
@@ -149,24 +149,6 @@ def pushplus(text: str | None) -> None:
 
 
 def telegram(text: str | None) -> None:
-    def escape_markdown(text: str) -> str:
-        return (
-            text.replace("_", "\\_")
-            .replace("*", "\\*")
-            .replace("#", "\\#")
-            .replace("`", "\\`")
-            .replace("[", "\\[")
-            .replace("]", "\\]")
-            .replace("|", "\\|")
-            .replace("<", "\\<")
-            .replace(">", "\\>")
-            .replace("~", "\\~")
-            .replace(".", "\\.")
-            .replace("-", "\\-")
-            .replace("(", "\\(")
-            .replace(")", "\\)")
-        )
-
     if not TELEGRAM_BOT_TOKEN:
         logging.info("telegram bot token is empty, ignoring pushing...")
         return
@@ -177,16 +159,21 @@ def telegram(text: str | None) -> None:
     if not text:
         return
 
+    import telegramify_markdown
+
     for user_id in TELEGRAM_USER_IDS:
         if not user_id:
             continue
 
         with suppress(ValueError):
+            if DEBUG:
+                print(text)
+
             response = requests.post(
                 f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
                 json={
                     "chat_id": int(user_id),
-                    "text": escape_markdown(text),
+                    "text": telegramify_markdown.markdownify(text),
                     "parse_mode": "MarkdownV2",
                 },
                 headers={"Content-Type": "application/json"},
