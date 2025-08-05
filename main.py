@@ -205,7 +205,7 @@ header = {
 response = requests.get(URL, headers=header)
 
 try:
-    remain = float(re.findall((r"(\d+(\.\d+)?)度"), response.text)[0][0])
+    remain = float(re.findall((r"(-?\d+(\.\d+)?)度"), response.text)[0][0])
     logging.info(f"剩余电量：{remain}")
 except Exception as e:
     logging.exception(e)
